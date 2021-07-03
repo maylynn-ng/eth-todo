@@ -16,6 +16,8 @@
 
 - to grab the state, you have to invoke it, ie. `todoList.taskCount()`
 
+- `truffle test` will run the tests
+
 ### What we're doing:
 
 1. List tasks in the smart contract

@@ -72,8 +72,38 @@ const App = {
 
     // render account
     $('#account').html(App.account);
+    await App.renderTasks();
 
     App.setLoading(false);
+  },
+
+  renderTasks: async () => {
+    // Load total task count from the block chain
+    const taskCount = await App.todoList.taskCount();
+    const $taskTemplate = $('.taskTemplate');
+
+    // Render out each task with a new task template
+    for (let i = 1; i <= taskCount; i++) {
+      const task = await App.todoList.tasks(i);
+      const { id, content, completed } = task;
+      const taskId = id.toNumber();
+
+      const $newTaskTemplate = $taskTemplate.clone();
+      $newTaskTemplate.find('.content').html(content);
+      $newTaskTemplate
+        .find('input')
+        .prop('name', taskId)
+        .prop('checked', completed);
+      // .on('click', App.toggleCompleted);
+
+      if (completed) {
+        $('#completedTaskList').append($newTaskTemplate);
+      } else {
+        $('#taskList').append($newTaskTemplate);
+      }
+
+      $newTaskTemplate.show();
+    }
   },
 
   setLoading: boolean => {
