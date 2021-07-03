@@ -22,6 +22,11 @@ contract TodoList {
   // uint will store the Task 
   // can't just grab them all, you'd have to grab them one by one using the uint
 
+  // how to create an event
+  // good to have to know what's happened
+  event TaskCreated(uint id, string content, bool completed);
+
+
   // constructor function: 
   // will be called whenever the smart contract is run for the first time (whenever it's deployed)
   // can add default things to do 
@@ -32,6 +37,7 @@ contract TodoList {
   function createTask(string memory _content) public {
     taskCount++;
     tasks[taskCount] = Task(taskCount, _content, false);
+    emit TaskCreated(taskCount, _content, false);
   }
 
 
